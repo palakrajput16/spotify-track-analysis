@@ -8,6 +8,8 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from recommender import recommend_tracks
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 st.set_page_config(page_title='Spotify Track Analysis', layout='wide')
 
 st.markdown("""
@@ -128,16 +130,16 @@ st.markdown("""
 
 @st.cache_data
 def load_data():
-    df = pd.read_csv('../data/processed/app_dataset.csv')
-    feature_matrix = np.load('../models/feature_matrix.npy')
+    df = pd.read_csv(os.path.join(BASE_DIR, '..', 'data', 'processed', 'app_dataset.csv'))
+    feature_matrix = np.load(os.path.join(BASE_DIR, '..', 'models', 'feature_matrix.npy'))
     return df, feature_matrix
 
 @st.cache_resource
 def load_models():
-    popularity_model = joblib.load('../models/popularity_model.pkl')
-    genre_model = joblib.load('../models/genre_model.pkl')
-    genre_encoder = joblib.load('../models/genre_label_encoder.pkl')
-    scaler = joblib.load('../models/scaler.pkl')
+    popularity_model = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'popularity_model.pkl'))
+    genre_model = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'genre_model.pkl'))
+    genre_encoder = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'genre_label_encoder.pkl'))
+    scaler = joblib.load(os.path.join(BASE_DIR, '..', 'models', 'scaler.pkl'))
     return popularity_model, genre_model, genre_encoder, scaler
 
 df, feature_matrix = load_data()
